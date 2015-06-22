@@ -31,21 +31,23 @@ io.sockets.on('connection', function (socket) {
 		
 		chatlog.push(data.name + ' says: ' + data.text);
 		io.emit('update_chat', {clog : chatlog});
+		console.log(users);
 	})
 
  	socket.on("new_user", function(clientData){
  		clientData.socket_id = socket.id;
  		users.push(clientData);
- 		chatlog.push('New User ' + clientData.name + ' has joined the chat');
+ 		chatlog.push(clientData.name + ' has joined the chat');
  		socket.emit('get_chat', {clog : chatlog, chat_users: users});
  		socket.broadcast.emit('update_chat', {clog : chatlog});
  	})
 	
 socket.on('disconnect', function(){
         console.log('something d/c', socket.id);
-        chatlog.push('User ' + 'SOMEBODY' + ' has left the chat');
+        
         for(index in users){
         	if(socket.id == users[index].socket_id){
+        		chatlog.push(users[index].name + ' has left the chat');
         		users.splice(index,1);
         		break;
         	}
