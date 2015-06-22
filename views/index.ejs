@@ -61,6 +61,7 @@ var username = window.prompt("Please enter your name");
 
     socket.on('update_chat', function(data){
         $('#msg_box').append("<p>" + data.clog[data.clog.length -1] + "</p>");
+        $("#msg_box").animate({ scrollTop: $("#msg_box")[0].scrollHeight}, 1000);
         })
 
     socket.on('update_userlist', function(data){
@@ -69,6 +70,12 @@ var username = window.prompt("Please enter your name");
         $.each(ulist, function(i,val){
             $('#userlist').append("<p>" + ulist[i].name + "</p>"); 
         })
+
+    $("body").keydown(function(event){
+        if(event.keyCode == 13){
+            $("#send_msg").click();
+        }
+    });
 
 
     })
