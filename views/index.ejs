@@ -27,11 +27,18 @@ $(document).ready(function (){
 
     socket.on('get_chat', function(data){
         var getchatlog = data.clog;
-        console.log(data.clog);
+       // console.log(data.clog);
         $.each(getchatlog, function(i,val){
             $('#msg_box').append("<p>" + getchatlog[i] + "</p>"); 
-        })     
+        })
     })
+
+    socket.on('update_chat', function(data){
+        $('#msg_box').append("<p>" + data.clog[data.clog.length -1] + "</p>");
+        })
+    
+
+    
 
     if(typeof username === 'undefined'){  
     var username = prompt("Please enter your name");
