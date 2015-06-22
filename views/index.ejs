@@ -1,0 +1,38 @@
+<html>
+<head>
+	<style>
+    button{
+        width: 200px;
+        height: 40px;
+        margin-bottom:10px;
+    }
+    #msg_box{
+    background-color: rgb(237, 237, 237);
+    height: 600px;
+    width: auto;
+    }
+	</style>
+	<title>Chatroom</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script type ="text/javascript" src="/socket.io/socket.io.js"></script>
+    <script type ="text/javascript">
+    
+$(document).ready(function (){
+    var socket = io.connect();
+    $('#send_msg').submit(function(event){
+        socket.emit('new_text', {text: $('#new_txt').val()})
+    })
+      
+})
+    </script>
+</head>
+<body>
+<h4>Conversation</h4>
+<div id='msg_box'>
+</div>
+<form id='send_msg'>
+    <input type='text' id='new_txt' size='100'>
+    <button value='submit' type='submit'>Send</button>
+</form>
+</body>
+</html>
