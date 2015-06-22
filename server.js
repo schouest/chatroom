@@ -31,7 +31,6 @@ io.sockets.on('connection', function (socket) {
 		
 		chatlog.push(data.name + ' says: ' + data.text);
 		io.emit('update_chat', {clog : chatlog});
-		console.log(users);
 	})
 
  	socket.on("new_user", function(clientData){
@@ -40,6 +39,7 @@ io.sockets.on('connection', function (socket) {
  		chatlog.push(clientData.name + ' has joined the chat');
  		socket.emit('get_chat', {clog : chatlog, chat_users: users});
  		socket.broadcast.emit('update_chat', {clog : chatlog});
+ 		io.emit('update_userlist', {userlist: users});
  	})
 	
 socket.on('disconnect', function(){
@@ -49,6 +49,7 @@ socket.on('disconnect', function(){
         	if(socket.id == users[index].socket_id){
         		chatlog.push(users[index].name + ' has left the chat');
         		users.splice(index,1);
+        		io.emit('update_userlist', {userlist: users});
         		break;
         	}
         }
