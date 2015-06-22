@@ -25,9 +25,14 @@ io.sockets.on('connection', function (socket) {
   console.log('Socket ID:',socket.id);
  
  	socket.on("new_text", function (data){
-	chatlog.push(data.text);
-	console.log(chatlog);
-	//io.emit('update_chat', {});
+		chatlog.push(data.text);
+		console.log(chatlog);
+		io.emit('update_chat', {clog : chatlog});
 	})
+
+ 	socket.on("get_chatlog", function(data){
+ 		socket.emit('get_chat', {clog : chatlog});
+ 	})
+	
 
 })

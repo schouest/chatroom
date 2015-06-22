@@ -21,8 +21,20 @@ $(document).ready(function (){
     var socket = io.connect();
     $('#send_msg').submit(function(event){
         socket.emit('new_text', {text: $('#new_txt').val()})
+        event.preventDefault();
     })
-      
+
+    socket.on('get_chat', function(data){
+        chatlog = data.clog;
+        console.log(data.clog);
+        $.each(data.clog, function(i,val){
+            $('#msg_box').append("<p>" + chatlog[i] + "</p>"); 
+        })
+
+        
+    })
+  
+    socket.emit('get_chatlog', {});
 })
     </script>
 </head>
@@ -31,7 +43,7 @@ $(document).ready(function (){
 <div id='msg_box'>
 </div>
 <form id='send_msg'>
-    <input type='text' id='new_txt' size='100'>
+    <input type='text' id='new_txt' size='100' require>
     <button value='submit' type='submit'>Send</button>
 </form>
 </body>
