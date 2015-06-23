@@ -11,7 +11,6 @@ var users = [];
 app.set('views', path.join(__dirname, './views'));
 app.set('view engine', 'ejs');
 
-// root route to render the index.ejs view
 app.get('/', function(req, res) {
  res.render("index");
 })
@@ -21,8 +20,6 @@ var server = app.listen(8000, function() {
 })
 
 var io = require('socket.io').listen(server);
-
-
 
 io.sockets.on('connection', function (socket) {
   console.log('Socket ID:',socket.id);
@@ -42,9 +39,7 @@ io.sockets.on('connection', function (socket) {
  		io.emit('update_userlist', {userlist: users});
  	})
 	
-socket.on('disconnect', function(){
-        console.log('something d/c', socket.id);
-        
+socket.on('disconnect', function(){        
         for(index in users){
         	if(socket.id == users[index].socket_id){
         		chatlog.push(users[index].name + ' has left the chat');
@@ -54,16 +49,5 @@ socket.on('disconnect', function(){
         	}
         }
         io.emit('update_chat', {clog : chatlog});
-        //io.emit update users
     })
-
-
-
-
-
-
-
-
-
-
 })
